@@ -2,7 +2,7 @@
 NAME=<your.route53.domain>
 NETWORK_SECURITY=<public|private>
 NETWORK_CIDR=<x.x.x.x/x>
-SSH_PUB_KEY_DIR=/path/to/a/public/ss/key
+SSH_PUB_KEY_DIR=/path/to/a/public/ssh/key
 CNI=<kubenet (default)|classic|external|kopeio-vxlan (or kopeio)|weave|flannel-vxlan (or flannel)|flannel-udp|calico|canal|kube-router|romana|amazon-vpc-routed-eni|cilium|cni>
 
 # Cloud
