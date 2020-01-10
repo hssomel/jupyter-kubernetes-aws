@@ -1,14 +1,7 @@
 #!/bin/bash
 
-TOPOLOGY=$1
+source ${PWD}/kops-config/.kops.config
 
-case $TOPOLOGY in 
-    public|private)
-        source ${PWD}/kops-config/.kops.config.${TOPOLOGY}
-
-        kops delete cluster $NAME \
-            --state $KOPS_STATE_STORE \
-            --yes
-    *) 
-        echo "Invalid: cluster topology must be specified (public|private)"
-esac
+kops delete cluster $NAME \
+    --state $KOPS_STATE_STORE \
+    --yes

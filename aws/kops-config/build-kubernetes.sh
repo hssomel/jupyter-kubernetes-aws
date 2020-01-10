@@ -1,32 +1,6 @@
 #/bin/bash
 
-# Assumes a Private Hosted Zone in Route53 of ${DOMAIN_NAME}
-
-kops create cluster ${DOMAIN_NAME} \
-  --api-loadbalancer-type "internal" \
-  --associate-public-ip="false" \
-  --authorization "RBAC" \
-  --bastion \
-  --channel "stable" \
-  --cloud "aws" \
-  --cloud-labels "project=kubernetes" \
-  --dns "private" \
-  --encrypt-etcd-storage \
-  --master-count 3 \
-  --master-size ${MASTER_SIZE} \
-  --master-tenancy "default" \
-  --master-volume-size 8 \
-  --master-zones ${ZONES} \
-  --networking "weave" \
-  --node-count 3 \
-  --node-size ${WORKER_SIZE} \
-  --node-tenancy "default" \
-  --node-volume-size 8 \
-  --ssh-public-key "/home/ubuntu/.ssh/id_rsa.pub" \
-  --topology "private" \
-  --zones ${ZONES} \
-#  --output "yaml" \
-#  --dry-run 
+kops create cluster ${NAME} \
 
 
 # CLI REFERENCE
