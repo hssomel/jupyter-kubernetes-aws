@@ -1,1 +1,2 @@
-.kops_profile
+.kops.config.public
+.kops.config.private
