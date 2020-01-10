@@ -30,8 +30,8 @@ if [[ $NETWORK_SECURITY == "public" ]]; then
         --ssh-public-key $SSH_PUB_KEY_DIR \
         --topology "public" \
         --zones $NODE_ZONES \
-        --output yaml \
-        --dry-run
+#        --output yaml \
+#        --dry-run
 elif [[ $NETWORK_SECURITY == "private" ]]; then
     kops create cluster $NAME \
         --admin-access $NETWORK_CIDR \
@@ -59,8 +59,8 @@ elif [[ $NETWORK_SECURITY == "private" ]]; then
         --ssh-public-key $SSH_PUB_KEY_DIR \
         --topology "private" \
         --zones $NODE_ZONES \
-        --output yaml \
-        --dry-run
+#        --output yaml \
+#        --dry-run
 else
         echo "Network security is not set in config"
 fi
