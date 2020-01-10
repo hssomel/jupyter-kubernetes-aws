@@ -1,0 +1,4 @@
+NETWORK_SECURITY=<private|private>
+NAME=<domain-of-a-route-53-hosted-zone>
+KOPS_STATE_STORE=s3://<s3-bucket-name>
+
