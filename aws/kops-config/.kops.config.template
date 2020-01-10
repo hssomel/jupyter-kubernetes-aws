@@ -1,4 +1,24 @@
-NETWORK_SECURITY=<private|private>
-NAME=<domain-of-a-route-53-hosted-zone>
-KOPS_STATE_STORE=s3://<s3-bucket-name>
+
+NAME=<your.route53.domain>
+NETWORK_SECURITY=<public|private>
+NETWORK_CIDR=<x.x.x.x/x>
+SSH_PUB_KEY_DIR=/path/to/a/public/ss/key
+CNI=<kubenet (default)|classic|external|kopeio-vxlan (or kopeio)|weave|flannel-vxlan (or flannel)|flannel-udp|calico|canal|kube-router|romana|amazon-vpc-routed-eni|cilium|cni>
+
+# Cloud
+KOPS_STATE_STORE=s3://s3-bucket-name
+CLOUD=aws #we used aws, but kops can be used elsewhere as well https://kops.sigs.k8s.io/getting_started/gce/
+CLOUD_LABELS="key1=value1,key2=value2"
+
+# Nodes
+NODE_TENANCY=<default|dedicated>
+NODE_VOLUME_SIZE=<int of GB>
+NODE_ZONES=<availabilityzone1,availabilityzone2,...>
+# Masters
+MASTER_COUNT=<int - should be odd because of etcd quorum> # https://github.com/etcd-io/etcd/blob/master/Documentation/faq.md
+MASTER_SIZE=<instance type (m5large,etc)>
+# Workers
+WORKER_COUNT=<int>
+WORKER_SIZE=<instance type (m5large,etc)>
+
 
