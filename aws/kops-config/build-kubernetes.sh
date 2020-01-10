@@ -1,6 +1,69 @@
 #/bin/bash
 
-kops create cluster ${NAME} \
+NETWORK_SECURITY=placeholder
+
+source ${PWD}/.kops.config #Config shared between private/public clusters
+
+if [[ $NETWORK_SECURITY == "public" ]]; then
+    kops create cluster $NAME \
+        --admin-access "0.0.0.0/0" \
+        --api-loadbalancer-type "public" \
+        --associate-public-ip="true" \
+        --authorization "RBAC" \
+        --channel "stable" \
+        --cloud $CLOUD \
+        --cloud-labels $CLOUD_LABELS \
+        --dns "public" \
+        --encrypt-etcd-storage \
+        --master-count $MASTER_COUNT \
+        --master-size $MASTER_SIZE \
+        --master-tenancy $NODE_TENANCY \
+        --master-volume-size $NODE_VOLUME_SIZE \
+        --master-zones $NODE_ZONES \
+        --network-cidr $NETWORK_CIDR \
+        --networking $CNI \
+        --node-count $WORKER_COUNT \
+        --node-size $WORKER_SIZE \
+        --node-tenancy $NODE_TENANCY \
+        --node-volume-size $NODE_VOLUME_SIZE \
+        --ssh-access "0.0.0.0/0" \
+        --ssh-public-key $SSH_PUB_KEY_DIR \
+        --topology "public" \
+        --zones $NODE_ZONES \
+        --output yaml \
+        --dry-run
+elif [[ $NETWORK_SECURITY == "private" ]]; then
+    kops create cluster $NAME \
+        --admin-access $NETWORK_CIDR \
+        --api-loadbalancer-type "internal" \
+        --associate-public-ip="false" \
+        --authorization "RBAC" \
+        --bastion \
+        --channel "stable" \
+        --cloud $CLOUD \
+        --cloud-labels $CLOUD_LABELS \
+        --dns "private" \
+        --encrypt-etcd-storage \
+        --master-count $MASTER_COUNT \
+        --master-size $MASTER_SIZE \
+        --master-tenancy $NODE_TENANCY \
+        --master-volume-size $NODE_VOLUME_SIZE \
+        --master-zones $NODE_ZONES \
+        --network-cidr $NETWORK_CIDR \
+        --networking $CNI \
+        --node-count $WORKER_COUNT \
+        --node-size $WORKER_SIZE \
+        --node-tenancy $NODE_TENANCY \
+        --node-volume-size $NODE_VOLUME_SIZE \
+        --ssh-access $NETWORK_CIDR \
+        --ssh-public-key $SSH_PUB_KEY_DIR \
+        --topology "private" \
+        --zones $NODE_ZONES \
+        --output yaml \
+        --dry-run
+else
+        echo "Network security is not set in config"
+fi
 
 
 # CLI REFERENCE
