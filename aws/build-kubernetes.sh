@@ -5,9 +5,9 @@ NETWORK_SECURITY=placeholder
 source ${PWD}/.kops.config #Config shared between private/public clusters
 
 if [[ $NETWORK_SECURITY == "public" ]]; then
+       # --api-loadbalancer-type "public"  <-- took out for single master node dev environment
     kops create cluster $NAME \
         --admin-access "0.0.0.0/0" \
-        --api-loadbalancer-type "public" \
         --associate-public-ip="true" \
         --authorization "RBAC" \
         --channel "stable" \
