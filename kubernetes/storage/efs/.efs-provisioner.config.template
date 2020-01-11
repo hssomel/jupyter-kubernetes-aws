@@ -1,4 +1,5 @@
-EFS_PROVISIONER_NAMESPACE=efs-provisioner
 EFS_FILE_SYSTEM_ID=fs-xxxxxxxx
-EFS_REGION=xx-xxxx-x
-DNS_NAME=xxxx.xxxxxxx.com
+AWS_REGION=xx-xxxx-x
+DEPLOY_ENV=xxx
+PROVISIONER_NAME=xxxxxx.com/aws-efs
+

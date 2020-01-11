@@ -1,13 +1,48 @@
+# Just a few PVC's to test out the provisioner
+
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: test-pvc-efs
+  name: efs-test-pvc-0
   annotations:
-    volume.beta.kubernetes.io/storage-class: 'aws-efs'
+    volume.beta.kubernetes.io/storage-class: aws-efs
 spec:
+  storageClassName: aws-efs
   accessModes:
-  - ReadWriteMany
+    - ReadWriteMany
   resources:
     requests:
       storage: 1Mi
+
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: efs-test-pvc-1
+  annotations:
+    volume.beta.kubernetes.io/storage-class: aws-efs
+spec:
+  storageClassName: aws-efs
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 100Mi
+
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: efs-test-pvc-2
+  annotations:
+    volume.beta.kubernetes.io/storage-class: aws-efs
+spec:
+  storageClassName: aws-efs
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
 
