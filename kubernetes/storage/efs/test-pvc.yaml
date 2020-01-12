@@ -46,3 +46,21 @@ spec:
     requests:
       storage: 1Gi
 
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: userid-55555
+  annotations:
+    volume.beta.kubernetes.io/storage-class: aws-efs
+spec:
+  storageClassName: aws-efs
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+
+
