@@ -74,7 +74,7 @@ rbac:
 
 
 proxy:
-  secretToken: ''
+  secretToken: SET
   service:
     type: LoadBalancer
     labels: {}
