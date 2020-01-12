@@ -9,7 +9,7 @@
 ##
 global:
   deployEnv: SET
-
+  kubernetesNamespace: SET
 ## Containers
 ##
 replicaCount: 1
