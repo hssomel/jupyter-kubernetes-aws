@@ -1,4 +1,0 @@
-SECRET_TOKEN=$(openssl rand -hex 32)
-RELEASE=xxxxxxxx
-NAMESPACE=xxxxxxxx
-
