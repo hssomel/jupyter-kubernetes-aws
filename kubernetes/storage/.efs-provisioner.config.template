@@ -1,0 +1,6 @@
+VERSION=x.x.x-dev
+EFS_FILE_SYSTEM_ID=fs-xxxxxxxx
+AWS_REGION=xx-xxxx-x
+DEPLOY_ENV=xxx
+PROVISIONER_NAME=xxxxxx.com/aws-efs
+NAMESPACE=xxxxxxxxx
