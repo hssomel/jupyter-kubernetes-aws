@@ -2,7 +2,7 @@
 
 source ./.efs-provisioner.config
 
-helm install ./efs-provisioner \
+helm install efs-provisioner ./efs-provisioner \
     --set global.deployEnv=$DEPLOY_ENV \
     --set efsProvisioner.efsFileSystemId=$EFS_FILE_SYSTEM_ID \
     --set efsProvisioner.awsRegion=$AWS_REGION \
