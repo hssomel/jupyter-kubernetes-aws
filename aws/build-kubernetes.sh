@@ -2,11 +2,12 @@
 
 NETWORK_SECURITY=placeholder
 
-source ${PWD}/.kops.config #Config shared between private/public clusters
+source ./.kops.config #Config shared between private/public clusters
 
 if [[ $NETWORK_SECURITY == "public" ]]; then
        # --api-loadbalancer-type "public"  <-- took out for single master node dev environment
     kops create cluster $NAME \
+        --state $KOPS_STATE_STORE \
         --admin-access "0.0.0.0/0" \
         --associate-public-ip="true" \
         --authorization "RBAC" \
@@ -29,11 +30,12 @@ if [[ $NETWORK_SECURITY == "public" ]]; then
         --ssh-access "0.0.0.0/0" \
         --ssh-public-key $SSH_PUB_KEY_DIR \
         --topology "public" \
-        --zones $NODE_ZONES \
+        --zones $NODE_ZONES 
 #        --output yaml \
 #        --dry-run
 elif [[ $NETWORK_SECURITY == "private" ]]; then
     kops create cluster $NAME \
+        --state $KOPS_STATE_STORE \
         --admin-access $NETWORK_CIDR \
         --api-loadbalancer-type "internal" \
         --associate-public-ip="false" \
