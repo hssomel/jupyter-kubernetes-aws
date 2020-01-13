@@ -1,7 +1,8 @@
+echo "
 ################################################################################
 # ENCRYPT WEAVE NET CNI
 ################################################################################
-
+"
 kubectl create secret generic weave-net-encryption-password \
   --from-literal WEAVE_PASSWORD=$(openssl rand -hex 128) \
   --namespace kube-system
