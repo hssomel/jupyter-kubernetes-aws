@@ -1,6 +1,6 @@
-# Repeatable with mutiple EFS's for convenience
+# Install kubernetes components in one shot
 
-source ./.efs-provisioner.config
+source ./.kubernetes.config
 
 kubectl create namespace efs-provisioner
 

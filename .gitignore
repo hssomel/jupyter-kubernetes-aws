@@ -1,3 +1,3 @@
 .kops.config
-.efs-provisioner.config
+.kubernetes.config
 .jupyterhub.config
