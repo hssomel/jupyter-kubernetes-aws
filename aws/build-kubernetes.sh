@@ -19,14 +19,14 @@ if [[ $NETWORK_SECURITY == "public" ]]; then
         --master-count $MASTER_COUNT \
         --master-size $MASTER_SIZE \
         --master-tenancy $NODE_TENANCY \
-        --master-volume-size $NODE_VOLUME_SIZE \
+        --master-volume-size $MASTER_VOLUME_SIZE \
         --master-zones $NODE_ZONES \
         --network-cidr $NETWORK_CIDR \
         --networking $CNI \
         --node-count $WORKER_COUNT \
         --node-size $WORKER_SIZE \
         --node-tenancy $NODE_TENANCY \
-        --node-volume-size $NODE_VOLUME_SIZE \
+        --node-volume-size $WORKER_VOLUME_SIZE \
         --ssh-access "0.0.0.0/0" \
         --ssh-public-key $SSH_PUB_KEY_DIR \
         --topology "public" \
@@ -49,14 +49,14 @@ elif [[ $NETWORK_SECURITY == "private" ]]; then
         --master-count $MASTER_COUNT \
         --master-size $MASTER_SIZE \
         --master-tenancy $NODE_TENANCY \
-        --master-volume-size $NODE_VOLUME_SIZE \
+        --master-volume-size $MASTER_VOLUME_SIZE \
         --master-zones $NODE_ZONES \
         --network-cidr $NETWORK_CIDR \
         --networking $CNI \
         --node-count $WORKER_COUNT \
         --node-size $WORKER_SIZE \
         --node-tenancy $NODE_TENANCY \
-        --node-volume-size $NODE_VOLUME_SIZE \
+        --node-volume-size $WORKER_VOLUME_SIZE \
         --ssh-access $NETWORK_CIDR \
         --ssh-public-key $SSH_PUB_KEY_DIR \
         --topology "private" \
