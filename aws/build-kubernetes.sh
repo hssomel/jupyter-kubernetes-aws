@@ -2,7 +2,7 @@
 
 NETWORK_SECURITY=placeholder
 
-source ./.kops.config #Config shared between private/public clusters
+source ~/jupyter-kubernetes-aws/.config
 
 if [[ $NETWORK_SECURITY == "public" ]]; then
        # --api-loadbalancer-type "public"  <-- took out for single master node dev environment
@@ -18,19 +18,19 @@ if [[ $NETWORK_SECURITY == "public" ]]; then
         --encrypt-etcd-storage \
         --master-count $MASTER_COUNT \
         --master-size $MASTER_SIZE \
-        --master-tenancy $NODE_TENANCY \
+        --master-tenancy $TENANCY \
         --master-volume-size $MASTER_VOLUME_SIZE \
-        --master-zones $NODE_ZONES \
+        --master-zones $ZONES \
         --network-cidr $NETWORK_CIDR \
         --networking $CNI \
         --node-count $WORKER_COUNT \
         --node-size $WORKER_SIZE \
-        --node-tenancy $NODE_TENANCY \
+        --node-tenancy $TENANCY \
         --node-volume-size $WORKER_VOLUME_SIZE \
         --ssh-access "0.0.0.0/0" \
         --ssh-public-key $SSH_PUB_KEY_DIR \
         --topology "public" \
-        --zones $NODE_ZONES 
+        --zones $ZONES 
 #        --output yaml \
 #        --dry-run
 elif [[ $NETWORK_SECURITY == "private" ]]; then
@@ -48,19 +48,19 @@ elif [[ $NETWORK_SECURITY == "private" ]]; then
         --encrypt-etcd-storage \
         --master-count $MASTER_COUNT \
         --master-size $MASTER_SIZE \
-        --master-tenancy $NODE_TENANCY \
+        --master-tenancy $TENANCY \
         --master-volume-size $MASTER_VOLUME_SIZE \
-        --master-zones $NODE_ZONES \
+        --master-zones $ZONES \
         --network-cidr $NETWORK_CIDR \
         --networking $CNI \
         --node-count $WORKER_COUNT \
         --node-size $WORKER_SIZE \
-        --node-tenancy $NODE_TENANCY \
+        --node-tenancy $TENANCY \
         --node-volume-size $WORKER_VOLUME_SIZE \
         --ssh-access $NETWORK_CIDR \
         --ssh-public-key $SSH_PUB_KEY_DIR \
         --topology "private" \
-        --zones $NODE_ZONES \
+        --zones $ZONES \
 #        --output yaml \
 #        --dry-run
 else

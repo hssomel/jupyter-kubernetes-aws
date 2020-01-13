@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./.kops.config
+source ~/jupyter-kubernetes-aws/.config
 
 kops validate cluster $NAME \
-    --state $KOPS_STATE_STORE 
+  --state $KOPS_STATE_STORE 
