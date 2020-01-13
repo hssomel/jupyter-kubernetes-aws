@@ -95,17 +95,51 @@ do
     --source-group $GROUP_ID
   echo "NFS traffic authorized:$GROUP_ID (cluster) -> $EFS_SECURITY_GROUP_ID (efs)"
 done
+
 fi
+
 echo "
 ################################################################################
 # EFS - CREATE FILE SYSTEM
 ################################################################################
 "
-aws efs create-file-system \
+EFS_FILE_SYSTEM_ID=$(\
+  aws efs create-file-system \
+    --region $AWS_REGION \
+    --output $OUTPUT \
+    --creation-token $EFS_CREATION_TOKEN \
+    --performance-mode $EFS_PERFORMANCE_MODE \
+    --encrypted \
+    | jq -r ".FileSystemId" \
+)
+aws efs create-tags \
   --region $AWS_REGION \
   --output $OUTPUT \
-  --creation-token 123456789 \
-  --performance-mode $EFS_PERFORMANCE_MODE \
-  --encrypted \
-  --throughput-mode $EFS_THROUGHPUT_MODE \
+  --file-system-id $EFS_FILE_SYSTEM_ID \
   --tags Key=Name,Value=efs.$NAME
+echo "efs.$NAME:     $EFS_FILE_SYSTEM_ID"
+
+echo "
+################################################################################
+# EFS - CREATE MOUNT TARGETS IN VPC
+################################################################################
+"
+SUBNET_IDS=$(\
+  aws ec2 describe-subnets \
+    --region $AWS_REGION \
+    --output $OUTPUT \
+    --filters Name=vpc-id,Values=$VPC_ID \
+    | jq -r ".Subnets[].SubnetId"
+)
+echo "Creating mount targets in these subnets:"
+echo $SUBNET_IDS
+
+for SUBNET_ID in $SUBNET_IDS
+do
+  aws efs create-mount-target \
+    --region $AWS_REGION \
+    --output $OUTPUT \
+    --file-system-id $EFS_FILE_SYSTEM_ID \
+    --subnet-id $SUBNET_ID \
+    --security-groups $EFS_SECURITY_GROUP_ID
+done
