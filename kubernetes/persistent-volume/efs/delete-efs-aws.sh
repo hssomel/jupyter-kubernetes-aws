@@ -45,7 +45,7 @@ EFS_SECURITY_GROUP_ID=$(\
       Name=vpc-id,Values=$VPC_ID \
     | jq -r ".SecurityGroups[].GroupId"
 )
-
+echo "efs.$NAME:     $NODES_SECURITY_GROUP_ID"
 
 echo "
 ################################################################################
@@ -61,7 +61,7 @@ do
     --protocol tcp \
     --port 2049 \
     --source-group $EFS_SECURITY_GROUP_ID
-  echo "NFS traffic authorized:$EFS_SECURITY_GROUP_ID (efs) -> $GROUP_ID (cluster)"
+  echo "NFS traffic revoked:$EFS_SECURITY_GROUP_ID (efs) -> $GROUP_ID (cluster)"
   aws ec2 revoke-security-group-ingress \
     --region $AWS_REGION \
     --output $OUTPUT \
@@ -69,13 +69,12 @@ do
     --protocol tcp \
     --port 2049 \
     --source-group $GROUP_ID
-  echo "NFS traffic authorized:$GROUP_ID (cluster) -> $EFS_SECURITY_GROUP_ID (efs)"
+  echo "NFS traffic revoked:$GROUP_ID (cluster) -> $EFS_SECURITY_GROUP_ID (efs)"
 done
-
 
 echo "
 ################################################################################
-# EFS - DELETE FILE SYSTEM
+# EFS - DESCRIBE FILE SYSTEM
 ################################################################################
 "
 EFS_FILE_SYSTEM_ID=$(\
@@ -83,22 +82,7 @@ EFS_FILE_SYSTEM_ID=$(\
     --region $AWS_REGION \
     --output $OUTPUT \
     --creation-token $EFS_CREATION_TOKEN \
-    | jq -r ".FileSystemId" \
+    | jq -r ".FileSystems[0].FileSystemId" \
 )
-echo "efs.$NAME:     $EFS_FILE_SYSTEM_ID deleted"
-
-LIFE_CYCLE_STATE=placeholder
-
-while [ $LIFE_CYCLE_STATE != "available" ]
-do
-  echo "Waiting for $EFS_FILE_SYSTEM_ID to become available..."
-  LIFE_CYCLE_STATE=$(
-    aws efs describe-file-systems \
-      --region $AWS_REGION \
-      --output $OUTPUT \
-      --file-system-id $EFS_FILE_SYSTEM_ID \
-      | jq -r ".FileSystems[0].LifeCycleState"
-  )
-  sleep 1
-done
+echo "efs.$NAME:     $EFS_FILE_SYSTEM_ID"
 
