@@ -85,4 +85,29 @@ EFS_FILE_SYSTEM_ID=$(\
     | jq -r ".FileSystems[0].FileSystemId" \
 )
 echo "efs.$NAME:     $EFS_FILE_SYSTEM_ID"
+MOUNT_TARGET_IDS=$(\
+  aws efs describe-mount-targets \
+    --region $AWS_REGION \
+    --output $OUTPUT \
+    --file-system-id $EFS_FILE_SYSTEM_ID \
+    | jq -r ".MountTargets[].MountTargetId" \
+)
+echo "$EFS_FILE_SYSTEM_ID has the following mount targets::"
+echo $MOUNT_TARGET_IDS
+
+echo"
+################################################################################
+# EFS - DELETE MOUNT TARGETS IN VPC
+################################################################################
+"
+for MOUNT_TARGET_ID in $MOUNT_TARGET_IDS
+do
+  aws efs delete-mount-target \
+    --region $AWS_REGION \
+    --output $OUTPUT \
+    --mount-target-id $MOUNT_TARGET_ID
+  echo "mount target:  $MOUNT_TARGET_ID deleted"
+done
+
+
 
