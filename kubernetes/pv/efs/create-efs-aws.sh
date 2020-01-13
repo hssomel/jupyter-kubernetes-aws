@@ -36,6 +36,20 @@ NODES_SECURITY_GROUP_ID=$(\
 )
 echo "nodes.$NAME:   $NODES_SECURITY_GROUP_ID"
 
+# Check to see if group already exists
+EFS_SECURITY_GROUP_ID=$(\
+  aws ec2 describe-security-groups \
+    --region $AWS_REGION \
+    --output $OUTPUT \
+    --filters \
+      Name=group-name,Values=efs.$NAME \
+      Name=vpc-id,Values=$VPC_ID \
+    | jq -r ".SecurityGroups[].GroupId"
+)
+if [[ ! -z "$EFS_SECURITY_GROUP_ID" ]]
+then
+  echo "efs.$NAME:     $EFS_SECURITY_GROUP_ID exists! Skipping to EFS creation"
+else 
 echo "
 ################################################################################
 # CREATING EFS SECURITY GROUP
@@ -81,4 +95,17 @@ do
     --source-group $GROUP_ID
   echo "NFS traffic authorized:$GROUP_ID (cluster) -> $EFS_SECURITY_GROUP_ID (efs)"
 done
-
+fi
+echo "
+################################################################################
+# EFS - CREATE FILE SYSTEM
+################################################################################
+"
+aws efs create-file-system \
+  --region $AWS_REGION \
+  --output $OUTPUT \
+  --creation-token 123456789 \
+  --performance-mode $EFS_PERFORMANCE_MODE \
+  --encrypted \
+  --throughput-mode $EFS_THROUGHPUT_MODE \
+  --tags Key=Name,Value=efs.$NAME
