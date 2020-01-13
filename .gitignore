@@ -1,3 +1,4 @@
+.config
 .kops.config
 .kubernetes.config
 .jupyterhub.config
