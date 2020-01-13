@@ -1,0 +1,37 @@
+# EXAMPLE CONFIG FOR THIS REPOSITORY (.config exluded from git ~ sensitive data)
+
+################################################################################
+# Kubernetes Cluster
+################################################################################
+
+# Networking
+NAME=your.domain.com
+NETWORK_SECURITY=public
+NETWORK_CIDR=10.0.0.0/16
+SSH_PUB_KEY_DIR=~/.ssh/id_rsa.pub
+CNI=weave
+
+# Cloud
+KOPS_STATE_STORE="s3://your-s3-bucket"
+CLOUD=aws
+CLOUD_LABELS="key1=value1,key2=value2"
+
+# Nodes
+TENANCY=default
+ZONES=us-east-1a
+MASTER_COUNT=3
+MASTER_SIZE=t3a.medium
+MASTER_VOLUME_SIZE=8
+WORKER_COUNT=81
+WORKER_SIZE=m5a.large
+WORKER_VOLUME_SIZE=300
+
+################################################################################
+# AWS
+################################################################################
+
+AWS_REGION=us-east-1
+OUTPUT=json
+EFS_PROVISIONER_NAME=your.domain.com/aws-efs
+EFS_PERFORMANCE_MODE=generalPurpose
+EFS_CREATION_TOKEN=<64 character alphanumeric string>
