@@ -50,5 +50,10 @@ EFS_SECURITY_GROUP_ID=$(\
     --vpc-id $VPC_ID \
     | jq -r ".GroupId"
 )
+aws ec2 create-tags \
+  --region $AWS_REGION \
+  --output $OUTPUT \
+  --resources $EFS_SECURITY_GROUP_ID \
+  --tags Key=Name,Value=efs.$NAME
 echo "efs.$NAME:     $EFS_SECURITY_GROUP_ID"
 
