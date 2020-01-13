@@ -57,3 +57,28 @@ aws ec2 create-tags \
   --tags Key=Name,Value=efs.$NAME
 echo "efs.$NAME:     $EFS_SECURITY_GROUP_ID"
 
+echo "
+################################################################################
+# AUTHORIZE NFS TRAFFIC TO SECURITY GROUPS
+################################################################################
+"
+for GROUP_ID in $MASTERS_SECURITY_GROUP_ID $NODES_SECURITY_GROUP_ID
+do
+  aws ec2 authorize-security-group-ingress \
+    --region $AWS_REGION \
+    --output $OUTPUT \
+    --group-id $GROUP_ID \
+    --protocol tcp \
+    --port 2049 \
+    --source-group $EFS_SECURITY_GROUP_ID
+  echo "NFS traffic authorized:$EFS_SECURITY_GROUP_ID (efs) -> $GROUP_ID (cluster)"
+  aws ec2 authorize-security-group-ingress \
+    --region $AWS_REGION \
+    --output $OUTPUT \
+    --group-id $EFS_SECURITY_GROUP_ID \
+    --protocol tcp \
+    --port 2049 \
+    --source-group $GROUP_ID
+  echo "NFS traffic authorized:$GROUP_ID (cluster) -> $EFS_SECURITY_GROUP_ID (efs)"
+done
+
