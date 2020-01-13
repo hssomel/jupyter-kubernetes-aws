@@ -119,6 +119,21 @@ aws efs create-tags \
   --tags Key=Name,Value=efs.$NAME
 echo "efs.$NAME:     $EFS_FILE_SYSTEM_ID"
 
+LIFE_CYCLE_STATE=placeholder
+
+while [ $LIFE_CYCLE_STATE != "available" ]
+do
+  echo "Waiting for $EFS_FILE_SYSTEM_ID to become available..."
+  LIFE_CYCLE_STATE=$(
+    aws efs describe-file-systems \
+      --region $AWS_REGION \
+      --output $OUTPUT \
+      --file-system-id $EFS_FILE_SYSTEM_ID \
+      | jq -r ".FileSystems[0].LifeCycleState"
+  )
+  sleep 1
+done
+
 echo "
 ################################################################################
 # EFS - CREATE MOUNT TARGETS IN VPC
