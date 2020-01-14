@@ -15,7 +15,9 @@ do
   "
   sleep 10
 done
+
 source ~/jupyter-kubernetes-aws/aws/validate-kubernetes-deployment.sh
+
 source ~/jupyter-kubernetes-aws/kubernetes/container-network-interface/weave-net/encrypt-weave-net.sh
 source ~/jupyter-kubernetes-aws/kubernetes/persistent-volume/efs/create-efs-aws.sh
 source ~/jupyter-kubernetes-aws/kubernetes/persistent-volume/efs/deploy-efs-provisioner.sh
