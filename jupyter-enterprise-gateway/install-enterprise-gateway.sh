@@ -1,3 +1,10 @@
 #!/bin/bash
 
-helm install https://github.com/jupyter/enterprise_gateway/releases/download/v2.0.0/jupyter_enterprise_gateway_helm-2.0.0.tgz
+kubectl create namespace enterprise-gateway
+
+helm install \
+  ~/jupyter-kubernetes-aws/jupyter-enterprise-gateway/enterprise-gateway \
+  --generate-name \
+  --namespace enterprise-gateway \
+  --devel \
+  --values ~/jupyter-kubernetes-aws/jupyter-enterprise-gateway/.values.json
