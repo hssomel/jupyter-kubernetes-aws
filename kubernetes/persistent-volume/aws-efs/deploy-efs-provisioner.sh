@@ -29,6 +29,7 @@ echo "
 "
 helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 helm install stable/efs-provisioner \
+  --atomic \
   --generate-name \
   --set efsProvisioner.efsFileSystemId=$EFS_FILE_SYSTEM_ID \
   --set efsProvisioner.awsRegion=$AWS_REGION \
