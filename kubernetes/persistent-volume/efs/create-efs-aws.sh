@@ -129,7 +129,7 @@ do
       --region $AWS_REGION \
       --output $OUTPUT \
       --file-system-id $EFS_FILE_SYSTEM_ID \
-      | jq -r ".FileSystems[0].LifeCycleState"
+      | jq -r ".FileSystems[0].LifeCycleState" \
   )
   sleep 1
 done
