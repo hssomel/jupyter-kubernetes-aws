@@ -1,26 +1,28 @@
+#!/bin/bash
 echo "
 ################################################################################
 # MASTER 'ON-SWITCH' SCRIPT
 ################################################################################
 "
+
 source \
   ~/jupyter-kubernetes-aws/.config
 source \
   ~/jupyter-kubernetes-aws/aws/build-kubernetes.sh
-source \ 
+source \
   ~/jupyter-kubernetes-aws/aws/deploy-kubernetes.sh
 
 SUCCESS_COUNT=0
-while [ $SUCCESS_COUNT -lt 4 ]
+while [[ $SUCCESS_COUNT -lt 4 ]]
 do
   echo "Performing cluster validation checkpoints every 15 seconds..."
   sleep 15
-  VALID=$(\
+  VALID=$( \
     source \
       ~/jupyter-kubernetes-aws/aws/validate-kubernetes-deployment.sh \
-      | grep "Your cluster $NAME is ready"
+      | grep "Your cluster $NAME is ready" \
   )
-  if [ -z $VALID]
+  if [[ $VALID == "Your cluster $NAME is ready" ]]
   then
     ((SUCCESS_COUNT++))
     echo "Cluster showing ready at checkpoint #$SUCCESS_COUNT"
