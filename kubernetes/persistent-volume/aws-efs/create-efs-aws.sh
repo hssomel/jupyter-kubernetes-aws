@@ -1,3 +1,4 @@
+#!/bin/bash
 source ~/jupyter-kubernetes-aws/.config
 
 echo "
@@ -5,46 +6,46 @@ echo "
 # OBTAINING CLUSTER VPC & SECURITY GROUP INFORMATION
 ################################################################################
 "
-VPC_ID=$(\
+VPC_ID=$( \
   aws ec2 describe-vpcs \
     --region $AWS_REGION \
     --output $OUTPUT \
     --filters Name=tag:Name,Values=$NAME \
-    | jq -r ".Vpcs[0].VpcId"
+    | jq -r ".Vpcs[0].VpcId" \
 )
 echo "$NAME:         $VPC_ID"
 
-MASTERS_SECURITY_GROUP_ID=$(\
+MASTERS_SECURITY_GROUP_ID=$( \
   aws ec2 describe-security-groups \
     --region $AWS_REGION \
     --output $OUTPUT \
     --filters \
       Name=group-name,Values=masters.$NAME \
       Name=vpc-id,Values=$VPC_ID \
-    | jq -r ".SecurityGroups[].GroupId"
+    | jq -r ".SecurityGroups[].GroupId" \
 )
 echo "masters.$NAME: $MASTERS_SECURITY_GROUP_ID"
 
-NODES_SECURITY_GROUP_ID=$(\
+NODES_SECURITY_GROUP_ID=$( \
   aws ec2 describe-security-groups \
     --region $AWS_REGION \
     --output $OUTPUT \
     --filters \
       Name=group-name,Values=nodes.$NAME \
       Name=vpc-id,Values=$VPC_ID \
-    | jq -r ".SecurityGroups[].GroupId"
+    | jq -r ".SecurityGroups[].GroupId" \
 )
 echo "nodes.$NAME:   $NODES_SECURITY_GROUP_ID"
 
 # Check to see if group already exists
-EFS_SECURITY_GROUP_ID=$(\
+EFS_SECURITY_GROUP_ID=$( \
   aws ec2 describe-security-groups \
     --region $AWS_REGION \
     --output $OUTPUT \
     --filters \
       Name=group-name,Values=efs.$NAME \
       Name=vpc-id,Values=$VPC_ID \
-    | jq -r ".SecurityGroups[].GroupId"
+    | jq -r ".SecurityGroups[].GroupId" \
 )
 if [[ ! -z "$EFS_SECURITY_GROUP_ID" ]]
 then
@@ -55,14 +56,14 @@ echo "
 # CREATING EFS SECURITY GROUP
 ################################################################################
 "
-EFS_SECURITY_GROUP_ID=$(\
+EFS_SECURITY_GROUP_ID=$( \
   aws ec2 create-security-group \
     --region $AWS_REGION \
     --output $OUTPUT \
     --description "Security group for efs" \
     --group-name efs.$NAME \
     --vpc-id $VPC_ID \
-    | jq -r ".GroupId"
+    | jq -r ".GroupId" \
 )
 aws ec2 create-tags \
   --region $AWS_REGION \
@@ -103,7 +104,7 @@ echo "
 # EFS - CREATE FILE SYSTEM
 ################################################################################
 "
-EFS_FILE_SYSTEM_ID=$(\
+EFS_FILE_SYSTEM_ID=$( \
   aws efs create-file-system \
     --region $AWS_REGION \
     --output $OUTPUT \
@@ -124,7 +125,7 @@ LIFE_CYCLE_STATE=placeholder
 while [ $LIFE_CYCLE_STATE != "available" ]
 do
   echo "Waiting for $EFS_FILE_SYSTEM_ID to become available..."
-  LIFE_CYCLE_STATE=$(
+  LIFE_CYCLE_STATE=$( \
     aws efs describe-file-systems \
       --region $AWS_REGION \
       --output $OUTPUT \
@@ -139,12 +140,12 @@ echo "
 # EFS - CREATE MOUNT TARGETS IN VPC
 ################################################################################
 "
-SUBNET_IDS=$(\
+SUBNET_IDS=$( \
   aws ec2 describe-subnets \
     --region $AWS_REGION \
     --output $OUTPUT \
     --filters Name=vpc-id,Values=$VPC_ID \
-    | jq -r ".Subnets[].SubnetId"
+    | jq -r ".Subnets[].SubnetId" \
 )
 echo "Creating mount targets in these subnets:"
 echo $SUBNET_IDS

@@ -1,10 +1,11 @@
-#/bin/bash
+#!/bin/bash
 
 NETWORK_SECURITY=placeholder
 
 source ~/jupyter-kubernetes-aws/.config
 
-if [[ $NETWORK_SECURITY == "public" ]]; then
+if [[ $NETWORK_SECURITY == "public" ]]
+then
        # --api-loadbalancer-type "public"  <-- took out for single master node dev environment
     kops create cluster $NAME \
         --state $KOPS_STATE_STORE \
@@ -33,7 +34,8 @@ if [[ $NETWORK_SECURITY == "public" ]]; then
         --zones $ZONES 
 #        --output yaml \
 #        --dry-run
-elif [[ $NETWORK_SECURITY == "private" ]]; then
+elif [[ $NETWORK_SECURITY == "private" ]]
+then
     kops create cluster $NAME \
         --state $KOPS_STATE_STORE \
         --admin-access $NETWORK_CIDR \

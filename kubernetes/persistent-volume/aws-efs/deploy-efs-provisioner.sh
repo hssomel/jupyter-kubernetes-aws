@@ -1,3 +1,4 @@
+#!/bin/bash
 source ~/jupyter-kubernetes-aws/.config
 
 echo "
@@ -5,7 +6,7 @@ echo "
 # Find EFS File system ID
 ################################################################################
 "
-EFS_FILE_SYSTEM_ID=$(\
+EFS_FILE_SYSTEM_ID=$( \
   aws efs describe-file-systems \
     --region $AWS_REGION \
     --output $OUTPUT \
@@ -31,6 +32,7 @@ helm install stable/efs-provisioner \
   --generate-name \
   --set efsProvisioner.efsFileSystemId=$EFS_FILE_SYSTEM_ID \
   --set efsProvisioner.awsRegion=$AWS_REGION \
+  --set efsProvisioner.provisionerName=$EFS_PROVISIONER_NAME
   --namespace efs-provisioner
 
 echo "

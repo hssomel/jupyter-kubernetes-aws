@@ -36,8 +36,6 @@ echo "Cluster is ready for use..."
 source \
   ~/jupyter-kubernetes-aws/aws/validate-kubernetes-deployment.sh
 source \
-  ~/jupyter-kubernetes-aws/aws/validate-kubernetes-deployment.sh
-source \
   ~/jupyter-kubernetes-aws/kubernetes/container-network-interface/weave-net/encrypt-weave-net.sh
 source \
   ~/jupyter-kubernetes-aws/kubernetes/persistent-volume/aws-ebs/adjust-ebs-gp2-storage-class.sh 

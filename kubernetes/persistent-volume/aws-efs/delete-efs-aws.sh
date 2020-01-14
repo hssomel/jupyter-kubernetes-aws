@@ -1,3 +1,4 @@
+#!/bin/bash
 source ~/jupyter-kubernetes-aws/.config
 
 echo "
@@ -5,7 +6,7 @@ echo "
 # OBTAINING CLUSTER VPC & SECURITY GROUP INFORMATION
 ################################################################################
 "
-VPC_ID=$(\
+VPC_ID=$( \
   aws ec2 describe-vpcs \
     --region $AWS_REGION \
     --output $OUTPUT \
@@ -14,7 +15,7 @@ VPC_ID=$(\
 )
 echo "$NAME:         $VPC_ID"
 
-MASTERS_SECURITY_GROUP_ID=$(\
+MASTERS_SECURITY_GROUP_ID=$( \
   aws ec2 describe-security-groups \
     --region $AWS_REGION \
     --output $OUTPUT \
@@ -25,7 +26,7 @@ MASTERS_SECURITY_GROUP_ID=$(\
 )
 echo "masters.$NAME: $MASTERS_SECURITY_GROUP_ID"
 
-NODES_SECURITY_GROUP_ID=$(\
+NODES_SECURITY_GROUP_ID=$( \
   aws ec2 describe-security-groups \
     --region $AWS_REGION \
     --output $OUTPUT \
@@ -36,7 +37,7 @@ NODES_SECURITY_GROUP_ID=$(\
 )
 echo "nodes.$NAME:   $NODES_SECURITY_GROUP_ID"
 
-EFS_SECURITY_GROUP_ID=$(\
+EFS_SECURITY_GROUP_ID=$( \
   aws ec2 describe-security-groups \
     --region $AWS_REGION \
     --output $OUTPUT \
@@ -77,7 +78,7 @@ echo "
 # EFS - DESCRIBE FILE SYSTEM
 ################################################################################
 "
-EFS_FILE_SYSTEM_ID=$(\
+EFS_FILE_SYSTEM_ID=$( \
   aws efs describe-file-systems \
     --region $AWS_REGION \
     --output $OUTPUT \
@@ -85,7 +86,7 @@ EFS_FILE_SYSTEM_ID=$(\
     | jq -r ".FileSystems[0].FileSystemId" \
 )
 echo "efs.$NAME:     $EFS_FILE_SYSTEM_ID"
-MOUNT_TARGET_IDS=$(\
+MOUNT_TARGET_IDS=$( \
   aws efs describe-mount-targets \
     --region $AWS_REGION \
     --output $OUTPUT \
@@ -111,7 +112,7 @@ done
 
 while [[ ! -z $MOUNT_TARGET_IDS ]] 
 do
-  MOUNT_TARGET_IDS=$(\
+  MOUNT_TARGET_IDS=$( \
     aws efs describe-mount-targets \
       --region $AWS_REGION \
       --output $OUTPUT \
@@ -130,17 +131,17 @@ echo "
 # EFS - DELETE FILE SYSTEM
 ################################################################################
 "
-LIFE_CYCLE_STATE=$(
+LIFE_CYCLE_STATE=$( \
   aws efs describe-file-systems \
     --region $AWS_REGION \
     --output $OUTPUT \
     --file-system-id $EFS_FILE_SYSTEM_ID \
     | jq -r ".FileSystems[0].LifeCycleState" \
 )
-while [ $LIFE_CYCLE_STATE != "available" ]
+while [[ $LIFE_CYCLE_STATE != "available" ]]
 do
   echo "Waiting for $EFS_FILE_SYSTEM_ID to become available before deletion..."
-  LIFE_CYCLE_STATE=$(
+  LIFE_CYCLE_STATE=$( \
     aws efs describe-file-systems \
       --region $AWS_REGION \
       --output $OUTPUT \
