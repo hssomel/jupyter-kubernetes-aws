@@ -20,7 +20,8 @@ echo "
 ################################################################################
 "
 kubectl delete storageclass default
-kubectl celete storageclass gp2
+kubectl patch storageclass gp2 \
+  -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
 
 echo "
 ################################################################################
@@ -41,3 +42,10 @@ helm install stable/efs-provisioner \
   --set efsProvisioner.awsRegion=$AWS_REGION \
   --namespace efs-provisioner
 
+echo "
+################################################################################
+# Make aws-efs the default storageclass
+################################################################################
+"
+kubectl patch storageclass aws-efs \
+  -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
