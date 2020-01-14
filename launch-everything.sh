@@ -1,26 +1,45 @@
-source ~/jupyter-kubernetes-aws/aws/build-kubernetes.sh
-source ~/jupyter-kubernetes-aws/aws/deploy-kubernetes.sh
+echo "
+################################################################################
+# MASTER 'ON-SWITCH' SCRIPT
+################################################################################
+"
+source \
+  ~/jupyter-kubernetes-aws/.config
+source \
+  ~/jupyter-kubernetes-aws/aws/build-kubernetes.sh
+source \ 
+  ~/jupyter-kubernetes-aws/aws/deploy-kubernetes.sh
 
-while [ -z $VALID ]
+SUCCESS_COUNT=0
+while [ $SUCCESS_COUNT -lt 4 ]
 do
-  echo "
-    CHECKING CLUSTER VALIDATION EVERY 10 seconds...  
-  "
+  echo "Performing cluster validation checkpoints every 15 seconds..."
+  sleep 15
   VALID=$(\
-    source ~/jupyter-kubernetes-aws/aws/validate-kubernetes-deployment.sh \
-    | grep "is ready"
+    source \
+      ~/jupyter-kubernetes-aws/aws/validate-kubernetes-deployment.sh \
+      | grep "Your cluster $NAME is ready"
   )
-  echo $VALID
-  echo "
-    CLUSTER IS STILL PENDING...
-  "
-
-  sleep 10
+  if [ -z $VALID]
+  then
+    ((SUCCESS_COUNT++))
+    echo "Cluster showing ready at checkpoint #$SUCCESS_COUNT"
+    echo "Waiting for 4 successful consecutive checkpoints..."
+  else
+    SUCCESS_COUNT=0
+    echo "Cluster not ready..."
+  fi
 done
-
-source ~/jupyter-kubernetes-aws/aws/validate-kubernetes-deployment.sh
-
-source ~/jupyter-kubernetes-aws/kubernetes/container-network-interface/weave-net/encrypt-weave-net.sh
-source ~/jupyter-kubernetes-aws/kubernetes/persistent-volume/aws-ebs/adjust-ebs-gp2-storage-class.sh 
-source ~/jupyter-kubernetes-aws/kubernetes/persistent-volume/aws-efs/create-efs-aws.sh
-source ~/jupyter-kubernetes-aws/kubernetes/persistent-volume/aws-efs/deploy-efs-provisioner.sh
+echo "Cluster is ready for use..."
+source \
+  ~/jupyter-kubernetes-aws/aws/validate-kubernetes-deployment.sh
+source \
+  ~/jupyter-kubernetes-aws/aws/validate-kubernetes-deployment.sh
+source \
+  ~/jupyter-kubernetes-aws/kubernetes/container-network-interface/weave-net/encrypt-weave-net.sh
+source \
+  ~/jupyter-kubernetes-aws/kubernetes/persistent-volume/aws-ebs/adjust-ebs-gp2-storage-class.sh 
+source \
+  ~/jupyter-kubernetes-aws/kubernetes/persistent-volume/aws-efs/create-efs-aws.sh
+source \
+  ~/jupyter-kubernetes-aws/kubernetes/persistent-volume/aws-efs/deploy-efs-provisioner.sh
