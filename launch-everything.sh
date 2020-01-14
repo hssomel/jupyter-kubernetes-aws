@@ -21,5 +21,6 @@ done
 source ~/jupyter-kubernetes-aws/aws/validate-kubernetes-deployment.sh
 
 source ~/jupyter-kubernetes-aws/kubernetes/container-network-interface/weave-net/encrypt-weave-net.sh
-source ~/jupyter-kubernetes-aws/kubernetes/persistent-volume/efs/create-efs-aws.sh
-source ~/jupyter-kubernetes-aws/kubernetes/persistent-volume/efs/deploy-efs-provisioner.sh
+source ~/jupyter-kubernetes-aws/kubernetes/persistent-volume/aws-ebs/adjust-ebs-gp2-storage-class.sh 
+source ~/jupyter-kubernetes-aws/kubernetes/persistent-volume/aws-efs/create-efs-aws.sh
+source ~/jupyter-kubernetes-aws/kubernetes/persistent-volume/aws-efs/deploy-efs-provisioner.sh
