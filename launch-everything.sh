@@ -4,15 +4,17 @@ source ~/jupyter-kubernetes-aws/aws/deploy-kubernetes.sh
 while [ -z $VALID ]
 do
   echo "
-    CLUSTER IS STILL PENDING...
+    CHECKING CLUSTER VALIDATION EVERY 10 seconds...  
   "
   VALID=$(\
     source ~/jupyter-kubernetes-aws/aws/validate-kubernetes-deployment.sh \
     | grep "is ready"
   )
+  echo $VALID
   echo "
-    CHECKING CLUSTER VALIDATION EVERY 10 seconds...
+    CLUSTER IS STILL PENDING...
   "
+
   sleep 10
 done
 
