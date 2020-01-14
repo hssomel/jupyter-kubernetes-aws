@@ -15,8 +15,8 @@ source \
 SUCCESS_COUNT=0
 while [[ $SUCCESS_COUNT -lt 4 ]]
 do
-  echo "Performing cluster validation checkpoints every 15 seconds..."
-  sleep 15
+  echo "Performing cluster validation checkpoints every 30 seconds..."
+  sleep 30
   VALID=$( \
     source \
       ~/jupyter-kubernetes-aws/aws/validate-kubernetes-deployment.sh \
