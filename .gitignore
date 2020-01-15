@@ -1,5 +1,7 @@
 .config
+.config.bak
 .kops.config
 .kubernetes.config
 .jupyterhub.config
 .values.yaml
+.values.yaml.bak
