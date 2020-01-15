@@ -2,3 +2,4 @@
 .kops.config
 .kubernetes.config
 .jupyterhub.config
+.values.yaml
