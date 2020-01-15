@@ -35,11 +35,19 @@ done
 echo "Cluster is ready for use..."
 source \
   ~/jupyter-kubernetes-aws/aws/validate-kubernetes-deployment.sh
+
+# Container Network Interface Security
 source \
   ~/jupyter-kubernetes-aws/kubernetes/container-network-interface/weave-net/encrypt-weave-net.sh
+
+# PersistentVolumes and PersistentVolumeClaims
 source \
   ~/jupyter-kubernetes-aws/kubernetes/persistent-volume/aws-ebs/adjust-ebs-gp2-storage-class.sh 
 source \
   ~/jupyter-kubernetes-aws/kubernetes/persistent-volume/aws-efs/create-efs-aws.sh
 source \
   ~/jupyter-kubernetes-aws/kubernetes/persistent-volume/aws-efs/deploy-efs-provisioner.sh
+
+# Ingress
+source \
+  ~/jupyter-kubernetes-aws/kubernetes/ingress-controller/install-nginx-ingress-controller.sh
