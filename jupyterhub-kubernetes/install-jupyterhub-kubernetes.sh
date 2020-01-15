@@ -1,6 +1,19 @@
 #!/bin/bash
 
-kubectl create namespace jupyterhub
+echo "
+################################################################################
+# INSTALL OR UPGRADE JUPYTERHUB  WITH HELM
+################################################################################
+"
+
+NAMESPACE=$( \
+  kubectl get namespaces | grep "^jupyterhub " \
+)
+
+if [[ -z $NAMESPACE ]]
+then
+  kubectl create namespace jupyterhub
+fi
 
 RELEASE=jupyterhub-dev
 
