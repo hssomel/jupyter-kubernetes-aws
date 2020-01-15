@@ -7,4 +7,4 @@ helm install \
   --generate-name \
   --namespace enterprise-gateway \
   --devel \
-  --values ~/jupyter-kubernetes-aws/jupyter-enterprise-gateway/.values.json
+  --values ~/jupyter-kubernetes-aws/jupyter-enterprise-gateway/.values.yaml

@@ -33,7 +33,7 @@ helm install stable/efs-provisioner \
   --generate-name \
   --set efsProvisioner.efsFileSystemId=$EFS_FILE_SYSTEM_ID \
   --set efsProvisioner.awsRegion=$AWS_REGION \
-  --set efsProvisioner.provisionerName=$EFS_PROVISIONER_NAME
+  --set efsProvisioner.provisionerName=$EFS_PROVISIONER_NAME \
   --namespace efs-provisioner
 
 echo "
