@@ -7,7 +7,7 @@ echo "
 "
 
 NAMESPACE=$( \
-  kubectl get namespaces | grep "enterprise-gateway" \
+  kubectl get namespaces | grep "^enterprise-gateway " \
 )
 
 if [[ -z $NAMESPACE ]]
