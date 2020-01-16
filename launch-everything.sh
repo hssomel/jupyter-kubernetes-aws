@@ -51,3 +51,7 @@ source \
 # Ingress
 source \
   ~/jupyter-kubernetes-aws/kubernetes/ingress-controller/install-nginx-ingress-controller.sh
+
+# NodePorts
+source \
+  ~/jupyter-kubernetes-aws/kubernetes/node-port/authorize-node-port-traffic.sh
