@@ -5,7 +5,7 @@ imagePullPolicy: IfNotPresent
 # The primary port on which Enterprise Gateway is servicing requests.
 port: 8888
 # Update to deploy multiple replicas of EG.
-replicas: 1
+replicas: 3
 # Log output level.
 logLevel: DEBUG
 # Whether to mirror working directories.
