@@ -1,0 +1,36 @@
+hub:
+  # Dummy token for testing
+  cookieSecret: 773305e0ba1846ea2e3f1010e094c05d4ed2ab295f9a4e2fa59fbf58f326b46b
+  imagePullPolicy: IfNotPresent
+  extraConfig:
+    podConfig.py: |
+      c.KubeSpawner.pod_name_template = "notebook-{username}"
+      c.KubeSpawner.namespace = "students"
+#   myConfig.py: |
+#     c.JupyterHub.something = 'something'
+#     c.Spawner.somethingelse = 'something else'
+
+proxy:
+  # Dummy token for testing
+  secretToken: 773305e0ba1846ea2e3f1010e094c05d4ed2ab295f9a4e2fa59fbf58f326b46b
+  service:
+    # NodePort during development
+    type: NodePort
+
+singleuser:
+  extraEnv:
+    KG_URL: http://100.71.229.192:8888
+    KG_HTTP_USER: "{username}"
+    KERNEL_USERNAME: "{username}"
+    KG_REQUEST_TIMEOUT: "60"
+# image:
+  # name: gurkamal/jupyter-k8s-single-user-for-enterprise-gateway
+  # tag: '0.8.2'
+    pullPolicy: IfNotPresent
+  storage:
+    dynamic:
+      storageClass: aws-efs
+      pvcNameTemplate: {username}
+      volumeNameTemplate: {username}
+      storageAccessModes: [ReadWriteMany]
+
