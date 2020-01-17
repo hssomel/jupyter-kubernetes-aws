@@ -1,7 +1,6 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
-  creationTimestamp: "2020-01-17T03:37:26Z"
   labels:
     app: jupyterhub
     chart: jupyterhub-0.8.2
@@ -9,13 +8,9 @@ metadata:
     heritage: Helm
     release: jupyterhub-dev
   name: hub
-  namespace: jupyterhub
-  resourceVersion: "14727"
-  selfLink: /apis/rbac.authorization.k8s.io/v1/namespaces/jupyterhub/rolebindings/hub
-  uid: 01d87434-fb2c-4d5e-a86d-26d47e358bd5
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
+  kind: ClusterRole
   name: hub
 subjects:
 - kind: ServiceAccount
