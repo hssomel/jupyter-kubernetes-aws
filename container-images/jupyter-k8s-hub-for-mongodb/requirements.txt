@@ -82,3 +82,10 @@ cryptography==2.8.*
 
 # py-spy is useful for profiling running hubs
 py-spy
+
+
+
+
+## Custom tools                                                                                                                                                                                                                                                                                                              # ---------------------------------------------------------
+# custom dependency to connect to mongodb w/ tls
+pymongo[tls]
