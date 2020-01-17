@@ -1,21 +1,46 @@
-hub
+hub:
   image:
     name: gurkamal/jupyter-k8s-hub-for-mongodb
-    tag: '0.8.2':
+    tag: '0.8.2'
+  # Set to always while testing
+  imagePullPolicy: Always
   # Dummy token for testing
   cookieSecret: 773305e0ba1846ea2e3f1010e094c05d4ed2ab295f9a4e2fa59fbf58f326b46b
   # imagePullPolicy: IfNotPresent
+  extraEnv:
+    MONGODB_URL: ""
+    MONGODB_DB_NAME: "jupyter"
+    MONGODB_COLLECTION_NAME: "users"
   extraConfig:
     podConfig.py: |
-      a_local = "sam"
-      c.KubeSpawner.namespace = a_local 
+      import os
+      import pprint
+      from pymongo import MongoClient
 
+      env_var = os.environ
+      print("User's Environment variable:") 
+      pprint.pprint(dict(env_var), width = 1) 
+
+      mongodb_url = os.environ['MONGODB_URL']
+      mongodb_db_name = os.environ['MONGODB_DB_NAME']
+      mongodb_collection_name = os.environ['MONGODB_COLLECTION_NAME']
+      
+      client = MongoClient(mongodb_url)
+      db = client.mongodb_db_name
+      collection = db.mongodb_collection_name
+      
+      def my_hook(spawner):
+          username = spawner.user.name
+          user_type = collection.find_one({'github_username': username})['organizational_group']
+          print(user_type)
+          c.KubeSpawner.namespace = "hard-coded"
+      c.Kubespawner.pre_spawn_hook = my_hook
 auth:
   type: github
   github:
-    clientId: "b1101eb691035876e278"
-    clientSecret: "2a4b4fde0212a2801856410920380b644f4fcd25"
-    callbackUrl: "http://ec2-34-204-94-178.compute-1.amazonaws.com:30000/hub/oauth_callback"
+    clientId: ""
+    clientSecret: ""
+    callbackUrl: "" 
 proxy:
   # Dummy token for testing
   secretToken: 773305e0ba1846ea2e3f1010e094c05d4ed2ab295f9a4e2fa59fbf58f326b46b
