@@ -34,6 +34,7 @@ helm install stable/efs-provisioner \
   --set efsProvisioner.efsFileSystemId=$EFS_FILE_SYSTEM_ID \
   --set efsProvisioner.awsRegion=$AWS_REGION \
   --set efsProvisioner.provisionerName=$EFS_PROVISIONER_NAME \
+  --set efsProvisioner.storageClass.gidAllocate.enabled="false" \
   --namespace efs-provisioner
 
 echo "
