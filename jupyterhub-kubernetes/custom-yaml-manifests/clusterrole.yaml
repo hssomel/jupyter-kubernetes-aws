@@ -1,7 +1,6 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRole
 metadata:
-  creationTimestamp: "2020-01-17T03:37:26Z"
   labels:
     app: jupyterhub
     chart: jupyterhub-0.8.2
@@ -9,10 +8,6 @@ metadata:
     heritage: Helm
     release: jupyterhub-dev
   name: hub
-  namespace: jupyterhub
-  resourceVersion: "14726"
-  selfLink: /apis/rbac.authorization.k8s.io/v1/namespaces/jupyterhub/roles/hub
-  uid: f47f5f3f-a825-4ca0-bd7c-da092bba6b41
 rules:
 - apiGroups:
   - ""
