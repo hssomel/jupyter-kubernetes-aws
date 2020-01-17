@@ -1,28 +1,30 @@
-hub:
+hub
+  image:
+    name: gurkamal/jupyter-k8s-hub-for-mongodb
+    tag: '0.8.2':
   # Dummy token for testing
   cookieSecret: 773305e0ba1846ea2e3f1010e094c05d4ed2ab295f9a4e2fa59fbf58f326b46b
   # imagePullPolicy: IfNotPresent
-# extraConfig:
-#   podConfig.py: |
-#     c.KubeSpawner.pod_name_template = "notebook-{username}"
-#     c.KubeSpawner.namespace = "students"
-#   myConfig.py: |
-#     c.JupyterHub.something = 'something'
-#     c.Spawner.somethingelse = 'something else'
+  extraConfig:
+    podConfig.py: |
+      a_local = "sam"
+      c.KubeSpawner.namespace = a_local 
 
 auth:
   type: github
   github:
-    clientId: "7ecf0d15172949798eec"
-    clientSecret: "454e0d98427ede7d0bf5e876a8421c007d43fd49"
-    callbackUrl: "http://accb01b16ca0749c7bd2882feb0941a0-1704587634.us-east-1.elb.amazonaws.com/hub/oauth_callback"
+    clientId: "b1101eb691035876e278"
+    clientSecret: "2a4b4fde0212a2801856410920380b644f4fcd25"
+    callbackUrl: "http://ec2-34-204-94-178.compute-1.amazonaws.com:30000/hub/oauth_callback"
 proxy:
   # Dummy token for testing
   secretToken: 773305e0ba1846ea2e3f1010e094c05d4ed2ab295f9a4e2fa59fbf58f326b46b
   service:
     # NodePort during development
-    type: LoadBalancer
-
+    type: NodePort
+    nodePorts:
+      http: 30000
+      https: 30001
     #singleuser:
     # extraEnv:
     # KG_URL: "http://100.71.229.192:8888"
