@@ -36,7 +36,9 @@ hub:
     password:
   labels: {}
   annotations: {}
-  extraConfig: {}
+  extraConfig: 
+    jupyter_notebook_config.py: |
+      config = '/etc/jupyter/jupyter_notebook_config.py'
   extraConfigMap: {}
   extraEnv: {}
   extraContainers: []
@@ -74,7 +76,7 @@ rbac:
 
 
 proxy:
-  secretToken: ''
+  secretToken: '146035d913a807595b6a16f445f47096e055535c155392f1c0ef37199714e482'
   service:
     type: LoadBalancer
     labels: {}
@@ -183,7 +185,13 @@ singleuser:
   extraAnnotations: {}
   extraLabels:
     hub.jupyter.org/network-access-hub: 'true'
-  extraEnv: {}
+  extraEnv: 
+    # Kubernetes internal DNS for services:
+    # <svc-name>.<namespace>.svc.cluster.local
+    KG_URL: "http://enterprise-gateway.harpreet.svc.cluster.local:8888"
+    # KG_HTTP_USER: "{username}"
+    # KERNEL_USERNAME: "{username}"
+    KG_REQUEST_TIMEOUT: "60" 
   lifecycleHooks:
   initContainers: []
   extraContainers: []
@@ -206,8 +214,9 @@ singleuser:
       volumeNameTemplate: volume-{username}{servername}
       storageAccessModes: [ReadWriteOnce]
   image:
-    name: jupyterhub/k8s-singleuser-sample
+    # name: jupyterhub/k8s-singleuser-sample
     tag: '0.8.2'
+    name: gurkamal/jupyter-k8s-single-user-for-enterprise-gateway
     pullPolicy: IfNotPresent
   imagePullSecret:
     enabled: false
