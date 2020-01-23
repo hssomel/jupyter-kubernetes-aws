@@ -8,8 +8,8 @@ hub:
   cookieSecret: 773305e0ba1846ea2e3f1010e094c05d4ed2ab295f9a4e2fa59fbf58f326b46b
   # imagePullPolicy: IfNotPresent
   extraEnv:
-    MONGODB_URL: ""
-    MONGODB_DB_NAME: "jupyter"
+    MONGODB_URL: "mongodb+srv://hsomel:mongoGugu1994@cluster99-nsitq.mongodb.net/test?retryWrites=true&w=majority"
+    MONGODB_DATABASE_NAME: "jupyterhub"
     MONGODB_COLLECTION_NAME: "users"
   extraConfig:
     podConfig.py: |
@@ -20,27 +20,33 @@ hub:
       env_var = os.environ
       print("User's Environment variable:") 
       pprint.pprint(dict(env_var), width = 1) 
+      
+      # Point to right collection
+      client = MongoClient(os.environ['MONGODB_URL'])
+      database = client[os.environ['MONGODB_DATABASE_NAME']]
+      collection = database[os.environ['MONGODB_COLLECTION_NAME']]
 
-      mongodb_url = os.environ['MONGODB_URL']
-      mongodb_db_name = os.environ['MONGODB_DB_NAME']
-      mongodb_collection_name = os.environ['MONGODB_COLLECTION_NAME']
+      print("client", client)
+      print("database", database)
+      print("collection", collection)
+
+      for x in collection.find():
+          print(x)
+
+      organizational_group = collection.find_one({'github_username': 'gurkamal-io'})['organizational_group']
+      print(organizational_group) 
       
-      client = MongoClient(mongodb_url)
-      db = client.mongodb_db_name
-      collection = db.mongodb_collection_name
-      
-      def my_hook(spawner):
-          username = spawner.user.name
-          user_type = collection.find_one({'github_username': username})['organizational_group']
-          print(user_type)
-          c.KubeSpawner.namespace = "hard-coded"
-      c.Kubespawner.pre_spawn_hook = my_hook
+      #def namespaced_pre_spawn_start(spawner):
+      #    spawner.namespace = 'students'
+
+      # c.KubeSpawner.pre_spawn_hook = namespaced_pre_spawn_start
+
 auth:
   type: github
   github:
-    clientId: ""
-    clientSecret: ""
-    callbackUrl: "" 
+    clientId: "58e9db0aef50a89bee9c"
+    clientSecret: "36b930d1dd83c93a5b5d39e73670918b9e8a1804"
+    callbackUrl: "http://ec2-107-21-88-252.compute-1.amazonaws.com:30000/hub/oauth_callback"
 proxy:
   # Dummy token for testing
   secretToken: 773305e0ba1846ea2e3f1010e094c05d4ed2ab295f9a4e2fa59fbf58f326b46b
