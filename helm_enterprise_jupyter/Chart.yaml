@@ -1,0 +1,4 @@
+name: enterprise-gateway-jupyterhub
+description: A helm chart to deploy Jupyter Enterprise Gateway
+version: 2.0.0
+apiVersion: v1
