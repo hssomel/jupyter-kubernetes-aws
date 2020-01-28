@@ -25,4 +25,7 @@ Enterprise Gateway comes built-in with the following kernels:
 The team modified the notebook server image utilized by Jupyterhub when deploying notebook server pods. Currently, the latest stable release of Jupyterhub is 0.8.2 which utilizes a notebook server image that does not have the "NB2KG" extension installed. This extension is needed for the notebook server to connect to Enterprise Gateway. Thus, the team modified the existing notebook server image to include this extension.
 
 ### How to Use:
-This repository deploys Jupyterhub and Jupyter Enterprise Gateway utilizing Helm.
+This repository deploys Jupyterhub and Jupyter Enterprise Gateway utilizing Helm. Once an appropriate cluster is initialized cd into the directory with the helm repository 
+```
+cd /jupyter-kubernetes-aws/helm_enterprise_jupyter
+```
