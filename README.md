@@ -32,3 +32,23 @@ This repository deploys Jupyterhub and Jupyter Enterprise Gateway utilizing Helm
 ```
 cd /jupyter-kubernetes-aws/helm_enterprise_jupyter
 ```
+Create the namespace you wish to launch the helm deployment in. Both Jupyterhub & Enterprise Gateway deployments are configured to launch in the same namespace as the helm deployment.
+```
+kubectl create ns sample-namespace
+```
+Documentation linked above has information on customizing both Jupyterhub & Enterprise-Gateway, however, it is imperative the notebook-server image is configured properly to connect to Enterprise-Gateway
+```
+cd /jupyter-kubernetes-aws/helm_enterprise_jupyter/values.yaml
+```
+On line 191 ensure the KG_URL env variable matches the DNS of Enterprise-Gateway
+```
+KG_URL: "http://enterprise-gateway.sample-namespace.svc.cluster.local:8888"
+```
+Launch the deployment via Helm while at the helm repo directory
+```
+cd /jupyter-kubernetes-aws/helm_enterprise_jupyter
+```
+```
+helm install . --namespace=sample-namespace --generate-name
+```
+Access Jupyterhub via the hub proxy service loadbalancer. Authentication can be configured for Jupyterhub via the above documentation. If correctly working user should be able to launch all specified Enterprise Gateway kernels!
