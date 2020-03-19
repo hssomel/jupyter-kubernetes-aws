@@ -1,12 +1,15 @@
 # jupyter-kubernetes-aws
 
 ## Project Overview:
-A platform for hosting machine learning and data science workloads. This project integrates and simultaneously deploys Jupyterhub and Jupyterhub Enterprise Gateway on AWS cloud platform via a Kubernetes deployment.  
+A platform for hosting machine learning and data science workloads. This project integrates and simultaneously launches Jupyterhub & Jupyter Enterprise Gateway on AWS cloud platform via a Kubernetes deployment.  
+
+### Prerequisites
+- A working cluster with Kubernetes and Helm pre-installed.
 
 ### Jupyterhub Overview:
-Jupyterhub provides user a web interface to interact with and spins up single-user server notebooks. The existing resources and documentation for deploying Jupyterhub as a kubernetes deployment using the following link: <br/>
+Jupyterhub allows clients to connect to notebook-server instances via a web interface. The existing resources for deploying Jupyterhub via kubernetes can be accessed using the following link: <br/>
 [https://zero-to-jupyterhub.readthedocs.io/en/latest/index.html](https://zero-to-jupyterhub.readthedocs.io/en/latest/index.html)<br/>
-Currently, Jupyterhub deployed via kubernetes, by following the steps provided in the original documentations, will deploy single-user notebook server instances as pods across the cluster. Each individual user will have their own notebook server pod, however, individual kernels and workloads launched within those notebook server pods will remain hosted on the same pod.
+The documentation in the link above has Jupyterhub configured to launch a single pod per user which hosts the notebook-server image. All kernel instances launched by the client will remain hosted in the same notebook-server pod. The integration of the notebook-server instance to Enterprise-Gateway eliminates that restriction and allows each kernel instance to be hosted inside its own pod thereby making full use of cluster resources.
 
 ### Jupyter Enterprise Gateway Overview:
 Jupyter Enterprise Gateway is a web server that enables the ability to launch kernels on behalf of remote notebooks. The existing resources for deploying Enterprise Gateway can be found using the link:<br/>
@@ -22,10 +25,10 @@ Enterprise Gateway comes built-in with the following kernels:
 - spark_scala_kubernetes
 
 #### Customization to Jupyterhub Deployment
-The team modified the notebook server image utilized by Jupyterhub when deploying notebook server pods. Currently, the latest stable release of Jupyterhub is 0.8.2 which utilizes a notebook server image that does not have the "NB2KG" extension installed. This extension is needed for the notebook server to connect to Enterprise Gateway. Thus, the team modified the existing notebook server image to include this extension.
+The team modified the notebook-server image utilized by Jupyterhub when deploying notebook-server pods. Currently, the latest stable release of Jupyterhub is 0.8.2 which utilizes a notebook server image that does not have the "NB2KG" extension installed. This extension is needed for the notebook server to connect to Enterprise Gateway. Thus, the team modified the existing notebook server image to include this extension.
 
 ### How to Use:
-This repository deploys Jupyterhub and Jupyter Enterprise Gateway utilizing Helm. Once an appropriate cluster is initialized cd into the directory with the helm repository 
+This repository deploys Jupyterhub and Jupyter Enterprise Gateway utilizing Helm. Once an appropriate cluster is initialized, clone the repository and cd into the directory with the helm repository 
 ```
 cd /jupyter-kubernetes-aws/helm_enterprise_jupyter
 ```
